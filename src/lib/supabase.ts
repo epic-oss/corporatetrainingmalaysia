@@ -1,9 +1,23 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Create client only if credentials are available
+let supabase: SupabaseClient | null = null
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey)
+}
+
+// Helper to check if Supabase is configured
+function getSupabase() {
+  if (!supabase) {
+    console.warn('Supabase not configured - missing environment variables')
+    return null
+  }
+  return supabase
+}
 
 // Types for providers_corporate table
 export interface ProviderCorporate {
@@ -40,7 +54,10 @@ export async function getProviders(options?: {
   limit?: number
   offset?: number
 }) {
-  let query = supabase
+  const client = getSupabase()
+  if (!client) return []
+
+  let query = client
     .from('providers_corporate')
     .select('*')
     .order('featured', { ascending: false })
@@ -85,7 +102,10 @@ export async function getProviders(options?: {
 
 // Fetch a single provider by slug
 export async function getProviderBySlug(slug: string) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  if (!client) return null
+
+  const { data, error } = await client
     .from('providers_corporate')
     .select('*')
     .eq('slug', slug)
@@ -101,7 +121,10 @@ export async function getProviderBySlug(slug: string) {
 
 // Fetch providers by location
 export async function getProvidersByLocation(location: string) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  if (!client) return []
+
+  const { data, error } = await client
     .from('providers_corporate')
     .select('*')
     .eq('location', location)
@@ -118,7 +141,10 @@ export async function getProvidersByLocation(location: string) {
 
 // Fetch HRDF-approved providers
 export async function getHRDFProviders() {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  if (!client) return []
+
+  const { data, error } = await client
     .from('providers_corporate')
     .select('*')
     .eq('hrdf_approved', true)
@@ -135,7 +161,10 @@ export async function getHRDFProviders() {
 
 // Fetch featured providers
 export async function getFeaturedProviders(limit: number = 6) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  if (!client) return []
+
+  const { data, error } = await client
     .from('providers_corporate')
     .select('*')
     .eq('featured', true)
@@ -152,7 +181,10 @@ export async function getFeaturedProviders(limit: number = 6) {
 
 // Fetch providers by specialization
 export async function getProvidersBySpecialization(specialization: string) {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  if (!client) return []
+
+  const { data, error } = await client
     .from('providers_corporate')
     .select('*')
     .contains('specializations', [specialization])
@@ -169,7 +201,10 @@ export async function getProvidersBySpecialization(specialization: string) {
 
 // Get all provider slugs for sitemap generation
 export async function getAllProviderSlugs() {
-  const { data, error } = await supabase
+  const client = getSupabase()
+  if (!client) return []
+
+  const { data, error } = await client
     .from('providers_corporate')
     .select('slug')
     .order('slug')
@@ -189,7 +224,10 @@ export async function getProvidersCount(options?: {
   hrdfApproved?: boolean
   priceRange?: string
 }) {
-  let query = supabase
+  const client = getSupabase()
+  if (!client) return 0
+
+  let query = client
     .from('providers_corporate')
     .select('id', { count: 'exact', head: true })
 
