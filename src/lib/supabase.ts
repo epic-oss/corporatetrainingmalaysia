@@ -66,12 +66,11 @@ export async function getProviders(options?: {
     query = query.eq('featured', true)
   }
 
-  if (options?.limit) {
-    query = query.limit(options.limit)
-  }
-
-  if (options?.offset) {
-    query = query.range(options.offset, options.offset + (options.limit || 10) - 1)
+  // Handle pagination - use range for both limit and offset
+  if (options?.limit !== undefined || options?.offset !== undefined) {
+    const limit = options?.limit ?? 1000
+    const offset = options?.offset ?? 0
+    query = query.range(offset, offset + limit - 1)
   }
 
   const { data, error } = await query
