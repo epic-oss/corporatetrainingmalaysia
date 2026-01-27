@@ -102,8 +102,8 @@ export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps
         </div>
       </div>
 
-      {/* Location + HRDF badges - always at same position */}
-      <div className="flex items-center gap-2 flex-wrap mt-2 mb-3">
+      {/* Tags section - all inline */}
+      <div className="flex flex-wrap gap-1.5 mt-2 mb-3 min-h-[1.75rem]">
         <span className="badge badge-location text-xs">
           {provider.location}
         </span>
@@ -112,18 +112,15 @@ export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps
             HRDF
           </span>
         )}
+        {provider.specializations.slice(0, 2).map((spec) => (
+          <span key={spec} className="badge badge-category text-xs">
+            {spec}
+          </span>
+        ))}
       </div>
 
-      {/* Body: Specializations + Description */}
+      {/* Body: Description */}
       <div className="flex-1 flex flex-col">
-        {/* Specializations */}
-        <div className="flex flex-wrap gap-1.5 mb-3 min-h-[1.75rem]">
-          {provider.specializations.slice(0, 3).map((spec) => (
-            <span key={spec} className="badge badge-category text-xs">
-              {spec}
-            </span>
-          ))}
-        </div>
 
         {/* Description Preview */}
         <p className="text-gray-600 text-sm line-clamp-2 flex-1">
