@@ -159,24 +159,42 @@ export async function getHRDFProviders() {
   return data as ProviderCorporate[]
 }
 
-// Fetch featured providers
+// Fetch featured providers (falls back to top-rated if no featured providers exist)
 export async function getFeaturedProviders(limit: number = 6) {
   const client = getSupabase()
   if (!client) return []
 
-  const { data, error } = await client
+  // First try to get featured providers
+  const { data: featuredData, error: featuredError } = await client
     .from('providers_corporate')
     .select('*')
     .eq('featured', true)
     .order('rating', { ascending: false, nullsFirst: false })
     .limit(limit)
 
-  if (error) {
-    console.error('Error fetching featured providers:', error)
+  if (featuredError) {
+    console.error('Error fetching featured providers:', featuredError)
     return []
   }
 
-  return data as ProviderCorporate[]
+  // If we have featured providers, return them
+  if (featuredData && featuredData.length > 0) {
+    return featuredData as ProviderCorporate[]
+  }
+
+  // Fallback: get top-rated providers instead
+  const { data: topRatedData, error: topRatedError } = await client
+    .from('providers_corporate')
+    .select('*')
+    .order('rating', { ascending: false, nullsFirst: false })
+    .limit(limit)
+
+  if (topRatedError) {
+    console.error('Error fetching top-rated providers:', topRatedError)
+    return []
+  }
+
+  return topRatedData as ProviderCorporate[]
 }
 
 // Fetch providers by specialization
