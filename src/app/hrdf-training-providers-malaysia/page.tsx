@@ -1,14 +1,27 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ProviderCard, useQuoteModal } from '@/components'
-import { getHRDFApprovedProviders } from '@/lib/providers'
+import { getHRDFProviders } from '@/lib/supabase'
+import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { getCurrentYear } from '@/lib/utils'
 
 export default function HRDFPage() {
   const currentYear = getCurrentYear()
-  const hrdfProviders = getHRDFApprovedProviders()
   const { openQuoteModal } = useQuoteModal()
+  const [hrdfProviders, setHrdfProviders] = useState<Provider[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchProviders() {
+      setIsLoading(true)
+      const data = await getHRDFProviders()
+      setHrdfProviders(mapProvidersFromSupabase(data))
+      setIsLoading(false)
+    }
+    fetchProviders()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -117,15 +130,38 @@ export default function HRDFPage() {
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
           HRDF-Approved Training Providers
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {hrdfProviders.map((provider) => (
-            <ProviderCard
-              key={provider.id}
-              provider={provider}
-              onGetQuote={openQuoteModal}
-            />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse">
+                <div className="h-6 bg-gray-200 rounded w-3/4 mb-3"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                <div className="flex gap-2 mb-4">
+                  <div className="h-6 bg-gray-200 rounded w-16"></div>
+                  <div className="h-6 bg-gray-200 rounded w-20"></div>
+                </div>
+                <div className="h-10 bg-gray-200 rounded"></div>
+              </div>
+            ))}
+          </div>
+        ) : hrdfProviders.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {hrdfProviders.map((provider) => (
+              <ProviderCard
+                key={provider.id}
+                provider={provider}
+                onGetQuote={openQuoteModal}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 bg-white rounded-xl">
+            <p className="text-gray-600">No HRDF-approved providers found.</p>
+            <Link href="/providers" className="btn-primary mt-4 inline-block">
+              View All Providers
+            </Link>
+          </div>
+        )}
 
         {/* How to Claim Section */}
         <div className="mt-16 bg-white rounded-xl p-6 md:p-8 shadow-sm">

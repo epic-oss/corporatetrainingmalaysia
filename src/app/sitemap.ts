@@ -1,9 +1,12 @@
 import { MetadataRoute } from 'next'
-import { providers } from '@/lib/providers'
+import { getAllProviderSlugs } from '@/lib/supabase'
 import { LOCATIONS, CATEGORIES, SITE_URL } from '@/lib/constants'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL
+
+  // Fetch provider slugs from Supabase
+  const providerSlugs = await getAllProviderSlugs()
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
@@ -46,8 +49,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
 
   // Provider pages
-  const providerPages: MetadataRoute.Sitemap = providers.map((provider) => ({
-    url: `${baseUrl}/providers/${provider.slug}`,
+  const providerPages: MetadataRoute.Sitemap = providerSlugs.map((slug) => ({
+    url: `${baseUrl}/providers/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,

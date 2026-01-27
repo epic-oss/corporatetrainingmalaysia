@@ -1,18 +1,30 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ProviderCard, StatsBar, useQuoteModal } from '@/components'
 import { CATEGORIES, LOCATIONS, ALL_STATES, TRAINING_TYPES } from '@/lib/constants'
-import { getFeaturedProviders } from '@/lib/providers'
+import { getFeaturedProviders } from '@/lib/supabase'
+import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { getCurrentYear } from '@/lib/utils'
 
 export default function HomePage() {
   const currentYear = getCurrentYear()
-  const featuredProviders = getFeaturedProviders()
   const { openQuoteModal } = useQuoteModal()
   const [selectedLocation, setSelectedLocation] = useState('')
   const [selectedType, setSelectedType] = useState('')
+  const [featuredProviders, setFeaturedProviders] = useState<Provider[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchFeaturedProviders() {
+      setIsLoading(true)
+      const data = await getFeaturedProviders(6)
+      setFeaturedProviders(mapProvidersFromSupabase(data))
+      setIsLoading(false)
+    }
+    fetchFeaturedProviders()
+  }, [])
 
   const handleSearch = () => {
     const params = new URLSearchParams()
@@ -109,15 +121,31 @@ export default function HomePage() {
               Top-rated corporate training companies in Malaysia
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProviders.slice(0, 6).map((provider) => (
-              <ProviderCard
-                key={provider.id}
-                provider={provider}
-                onGetQuote={openQuoteModal}
-              />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse">
+                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-3"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                  <div className="flex gap-2 mb-4">
+                    <div className="h-6 bg-gray-200 rounded w-16"></div>
+                    <div className="h-6 bg-gray-200 rounded w-20"></div>
+                  </div>
+                  <div className="h-10 bg-gray-200 rounded"></div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredProviders.map((provider) => (
+                <ProviderCard
+                  key={provider.id}
+                  provider={provider}
+                  onGetQuote={openQuoteModal}
+                />
+              ))}
+            </div>
+          )}
           <div className="text-center mt-10">
             <Link href="/providers" className="btn-outline">
               View All Providers

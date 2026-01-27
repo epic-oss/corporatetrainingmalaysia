@@ -1,19 +1,41 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ProviderCard, useQuoteModal } from '@/components'
-import { providers } from '@/lib/providers'
-import { TRAINING_TYPES, ALL_STATES, PRICE_RANGES } from '@/lib/constants'
+import { Provider, mapProvidersFromSupabase, locationMap } from '@/lib/providers'
+import { getProviders, getProvidersCount } from '@/lib/supabase'
+import { TRAINING_TYPES, PRICE_RANGES } from '@/lib/constants'
 import { getCurrentYear } from '@/lib/utils'
 
 type SortOption = 'featured' | 'rating' | 'alphabetical'
+
+// Location options with slugs matching database
+const LOCATION_OPTIONS = [
+  { value: '', label: 'All States' },
+  { value: 'kuala-lumpur', label: 'Kuala Lumpur' },
+  { value: 'selangor', label: 'Selangor' },
+  { value: 'penang', label: 'Penang' },
+  { value: 'johor', label: 'Johor' },
+  { value: 'perak', label: 'Perak' },
+  { value: 'melaka', label: 'Melaka' },
+  { value: 'negeri-sembilan', label: 'Negeri Sembilan' },
+  { value: 'pahang', label: 'Pahang' },
+  { value: 'kedah', label: 'Kedah' },
+  { value: 'kelantan', label: 'Kelantan' },
+  { value: 'terengganu', label: 'Terengganu' },
+  { value: 'sabah', label: 'Sabah' },
+  { value: 'sarawak', label: 'Sarawak' },
+]
 
 export default function ProvidersContent() {
   const currentYear = getCurrentYear()
   const searchParams = useSearchParams()
   const { openQuoteModal } = useQuoteModal()
 
+  const [providers, setProviders] = useState<Provider[]>([])
+  const [totalCount, setTotalCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
   const [location, setLocation] = useState(searchParams.get('location') || '')
   const [trainingType, setTrainingType] = useState(searchParams.get('type') || '')
   const [hrdfOnly, setHrdfOnly] = useState(false)
@@ -22,8 +44,60 @@ export default function ProvidersContent() {
   const [currentPage, setCurrentPage] = useState(1)
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false)
 
-  const ITEMS_PER_PAGE = 9
+  const ITEMS_PER_PAGE = 12
 
+  // Fetch providers from Supabase
+  useEffect(() => {
+    async function fetchProviders() {
+      setIsLoading(true)
+      try {
+        const [data, count] = await Promise.all([
+          getProviders({
+            location: location || undefined,
+            specialization: trainingType || undefined,
+            hrdfApproved: hrdfOnly || undefined,
+            priceRange: priceRange || undefined,
+            limit: ITEMS_PER_PAGE,
+            offset: (currentPage - 1) * ITEMS_PER_PAGE,
+          }),
+          getProvidersCount({
+            location: location || undefined,
+            specialization: trainingType || undefined,
+            hrdfApproved: hrdfOnly || undefined,
+            priceRange: priceRange || undefined,
+          }),
+        ])
+
+        let mapped = mapProvidersFromSupabase(data)
+
+        // Client-side sorting
+        switch (sortBy) {
+          case 'featured':
+            mapped.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || b.rating - a.rating)
+            break
+          case 'rating':
+            mapped.sort((a, b) => b.rating - a.rating)
+            break
+          case 'alphabetical':
+            mapped.sort((a, b) => a.name.localeCompare(b.name))
+            break
+        }
+
+        setProviders(mapped)
+        setTotalCount(count)
+      } catch (error) {
+        console.error('Error fetching providers:', error)
+        setProviders([])
+        setTotalCount(0)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchProviders()
+  }, [location, trainingType, hrdfOnly, priceRange, sortBy, currentPage])
+
+  // Reset page when filters change
   useEffect(() => {
     const locationParam = searchParams.get('location')
     const typeParam = searchParams.get('type')
@@ -31,51 +105,7 @@ export default function ProvidersContent() {
     if (typeParam) setTrainingType(typeParam)
   }, [searchParams])
 
-  const filteredProviders = useMemo(() => {
-    let filtered = [...providers]
-
-    if (location) {
-      filtered = filtered.filter(p =>
-        p.location.toLowerCase() === location.toLowerCase()
-      )
-    }
-
-    if (trainingType) {
-      filtered = filtered.filter(p =>
-        p.specializations.some(s =>
-          s.toLowerCase().includes(trainingType.toLowerCase())
-        )
-      )
-    }
-
-    if (hrdfOnly) {
-      filtered = filtered.filter(p => p.hrdfApproved)
-    }
-
-    if (priceRange) {
-      filtered = filtered.filter(p => p.priceRange === priceRange)
-    }
-
-    switch (sortBy) {
-      case 'featured':
-        filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
-        break
-      case 'rating':
-        filtered.sort((a, b) => b.rating - a.rating)
-        break
-      case 'alphabetical':
-        filtered.sort((a, b) => a.name.localeCompare(b.name))
-        break
-    }
-
-    return filtered
-  }, [location, trainingType, hrdfOnly, priceRange, sortBy])
-
-  const totalPages = Math.ceil(filteredProviders.length / ITEMS_PER_PAGE)
-  const paginatedProviders = filteredProviders.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  )
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
 
   const clearFilters = () => {
     setLocation('')
@@ -96,7 +126,7 @@ export default function ProvidersContent() {
             Corporate Training Providers in Malaysia ({currentYear})
           </h1>
           <p className="text-primary-100">
-            Browse and compare {providers.length}+ training companies
+            Browse and compare {totalCount}+ training companies
           </p>
         </div>
       </div>
@@ -147,9 +177,8 @@ export default function ProvidersContent() {
                     setCurrentPage(1)
                   }}
                 >
-                  <option value="">All States</option>
-                  {ALL_STATES.map((state) => (
-                    <option key={state} value={state}>{state}</option>
+                  {LOCATION_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
                   ))}
                 </select>
               </div>
@@ -237,7 +266,11 @@ export default function ProvidersContent() {
             {/* Sort and Results Count */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
               <p className="text-gray-600">
-                Showing <span className="font-semibold">{filteredProviders.length}</span> providers
+                {isLoading ? (
+                  'Loading providers...'
+                ) : (
+                  <>Showing <span className="font-semibold">{totalCount}</span> providers</>
+                )}
               </p>
               <div className="flex items-center gap-2">
                 <label className="text-sm text-gray-600">Sort by:</label>
@@ -253,11 +286,25 @@ export default function ProvidersContent() {
               </div>
             </div>
 
-            {/* Provider Grid */}
-            {paginatedProviders.length > 0 ? (
+            {/* Loading State */}
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse">
+                    <div className="h-6 bg-gray-200 rounded w-3/4 mb-3"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                    <div className="flex gap-2 mb-4">
+                      <div className="h-6 bg-gray-200 rounded w-16"></div>
+                      <div className="h-6 bg-gray-200 rounded w-20"></div>
+                    </div>
+                    <div className="h-10 bg-gray-200 rounded"></div>
+                  </div>
+                ))}
+              </div>
+            ) : providers.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {paginatedProviders.map((provider) => (
+                  {providers.map((provider) => (
                     <ProviderCard
                       key={provider.id}
                       provider={provider}
@@ -276,19 +323,31 @@ export default function ProvidersContent() {
                     >
                       Previous
                     </button>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`w-10 h-10 rounded-lg ${
-                          currentPage === page
-                            ? 'bg-primary-600 text-white'
-                            : 'border border-gray-300 hover:bg-gray-50'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                      let page: number
+                      if (totalPages <= 5) {
+                        page = i + 1
+                      } else if (currentPage <= 3) {
+                        page = i + 1
+                      } else if (currentPage >= totalPages - 2) {
+                        page = totalPages - 4 + i
+                      } else {
+                        page = currentPage - 2 + i
+                      }
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`w-10 h-10 rounded-lg ${
+                            currentPage === page
+                              ? 'bg-primary-600 text-white'
+                              : 'border border-gray-300 hover:bg-gray-50'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      )
+                    })}
                     <button
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}

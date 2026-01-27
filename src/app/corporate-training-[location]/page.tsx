@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProviderCard, useQuoteModal } from '@/components'
-import { providers } from '@/lib/providers'
+import { getProvidersByLocation } from '@/lib/supabase'
+import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { LOCATIONS } from '@/lib/constants'
 import { getCurrentYear } from '@/lib/utils'
 
@@ -24,17 +26,25 @@ export default function LocationPage({ params }: LocationPageProps) {
   const location = params.location
   const currentYear = getCurrentYear()
   const { openQuoteModal } = useQuoteModal()
+  const [locationProviders, setLocationProviders] = useState<Provider[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const locationData = LOCATIONS.find(l => l.slug === location)
+
+  useEffect(() => {
+    async function fetchProviders() {
+      if (!locationData) return
+      setIsLoading(true)
+      const data = await getProvidersByLocation(location)
+      setLocationProviders(mapProvidersFromSupabase(data))
+      setIsLoading(false)
+    }
+    fetchProviders()
+  }, [location, locationData])
 
   if (!locationData) {
     notFound()
   }
-
-  const locationProviders = providers.filter(
-    p => p.location.toLowerCase() === locationData.name.toLowerCase() ||
-         (location === 'kuala-lumpur' && p.location === 'Kuala Lumpur')
-  )
 
   const description = locationDescriptions[location] ||
     `Find the best corporate training providers in ${locationData.name}, Malaysia. Compare HRDF-approved trainers and get free quotes for your training needs.`
@@ -106,7 +116,26 @@ export default function LocationPage({ params }: LocationPageProps) {
         </div>
 
         {/* Providers Grid */}
-        {locationProviders.length > 0 ? (
+        {isLoading ? (
+          <>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Training Providers in {locationData.name}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse">
+                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-3"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                  <div className="flex gap-2 mb-4">
+                    <div className="h-6 bg-gray-200 rounded w-16"></div>
+                    <div className="h-6 bg-gray-200 rounded w-20"></div>
+                  </div>
+                  <div className="h-10 bg-gray-200 rounded"></div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : locationProviders.length > 0 ? (
           <>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Training Providers in {locationData.name}

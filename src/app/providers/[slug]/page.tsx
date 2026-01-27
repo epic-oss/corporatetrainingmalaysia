@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { useQuoteModal } from '@/components'
-import { getProviderBySlug } from '@/lib/providers'
+import { getProviderBySlug } from '@/lib/supabase'
+import { Provider, mapProviderFromSupabase } from '@/lib/providers'
 import { getCurrentYear } from '@/lib/utils'
 
 interface ProviderPageProps {
@@ -12,12 +14,44 @@ interface ProviderPageProps {
 
 export default function ProviderPage({ params }: ProviderPageProps) {
   const slug = params.slug
-  const provider = getProviderBySlug(slug)
   const { openQuoteModal } = useQuoteModal()
   const currentYear = getCurrentYear()
+  const [provider, setProvider] = useState<Provider | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [notFoundState, setNotFoundState] = useState(false)
 
-  if (!provider) {
+  useEffect(() => {
+    async function fetchProvider() {
+      setIsLoading(true)
+      const data = await getProviderBySlug(slug)
+      if (!data) {
+        setNotFoundState(true)
+      } else {
+        setProvider(mapProviderFromSupabase(data))
+      }
+      setIsLoading(false)
+    }
+    fetchProvider()
+  }, [slug])
+
+  if (notFoundState) {
     notFound()
+  }
+
+  if (isLoading || !provider) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-primary-600 py-12">
+          <div className="container-custom">
+            <div className="animate-pulse">
+              <div className="h-8 bg-primary-500 rounded w-1/3 mb-4"></div>
+              <div className="h-12 bg-primary-500 rounded w-2/3 mb-2"></div>
+              <div className="h-6 bg-primary-500 rounded w-1/2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -67,9 +101,11 @@ export default function ProviderPage({ params }: ProviderPageProps) {
                   </svg>
                   <span className="ml-1 text-white font-semibold">{provider.rating.toFixed(1)}</span>
                 </div>
-                <span className="text-primary-200">
-                  Est. {provider.yearEstablished}
-                </span>
+                {provider.reviewCount > 0 && (
+                  <span className="text-primary-200">
+                    {provider.reviewCount} reviews
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex flex-col gap-3">
@@ -106,35 +142,22 @@ export default function ProviderPage({ params }: ProviderPageProps) {
               </p>
             </section>
 
-            {/* Training Programs */}
-            <section className="bg-white rounded-xl shadow-sm p-6 md:p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Training Programs Offered</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {provider.programs.map((program, index) => (
-                  <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
-                    <svg className="w-5 h-5 text-accent-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span className="text-gray-700">{program}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Industries Served */}
-            <section className="bg-white rounded-xl shadow-sm p-6 md:p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Industries Served</h2>
-              <div className="flex flex-wrap gap-2">
-                {provider.industriesServed.map((industry, index) => (
-                  <span
-                    key={index}
-                    className="px-4 py-2 bg-primary-50 text-primary-700 rounded-lg text-sm font-medium"
-                  >
-                    {industry}
-                  </span>
-                ))}
-              </div>
-            </section>
+            {/* Training Specializations */}
+            {provider.specializations.length > 0 && (
+              <section className="bg-white rounded-xl shadow-sm p-6 md:p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Training Specializations</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {provider.specializations.map((specialization, index) => (
+                    <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
+                      <svg className="w-5 h-5 text-accent-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-gray-700">{specialization}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Testimonials Placeholder */}
             <section className="bg-white rounded-xl shadow-sm p-6 md:p-8">
@@ -230,21 +253,6 @@ export default function ProviderPage({ params }: ProviderPageProps) {
                     </a>
                   </div>
                 )}
-              </div>
-            </div>
-
-            {/* Specializations Card */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Specializations</h3>
-              <div className="flex flex-wrap gap-2">
-                {provider.specializations.map((spec, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1.5 bg-accent-50 text-accent-700 rounded-full text-sm font-medium"
-                  >
-                    {spec}
-                  </span>
-                ))}
               </div>
             </div>
 

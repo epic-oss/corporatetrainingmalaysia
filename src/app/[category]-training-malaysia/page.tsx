@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProviderCard, useQuoteModal } from '@/components'
-import { providers } from '@/lib/providers'
+import { getProvidersBySpecialization } from '@/lib/supabase'
+import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { CATEGORIES } from '@/lib/constants'
 import { getCurrentYear } from '@/lib/utils'
 
@@ -21,23 +23,41 @@ const categoryExtendedDescriptions: Record<string, string> = {
   'team-building': 'Team building programs strengthen collaboration and trust among employees. From outdoor adventure activities to indoor workshops and virtual team building, our providers create memorable experiences that improve team dynamics. Perfect for department retreats and corporate events.',
 }
 
+// Map category slugs to specialization search terms
+const categoryToSpecialization: Record<string, string> = {
+  'leadership': 'Leadership',
+  'sales': 'Sales',
+  'communication': 'Communication',
+  'technical': 'Technical',
+  'compliance': 'Compliance',
+  'soft-skills': 'Soft Skills',
+  'team-building': 'Team Building',
+}
+
 export default function CategoryPage({ params }: CategoryPageProps) {
   const category = params.category
   const currentYear = getCurrentYear()
   const { openQuoteModal } = useQuoteModal()
+  const [categoryProviders, setCategoryProviders] = useState<Provider[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const categoryData = CATEGORIES.find(c => c.slug === category)
+
+  useEffect(() => {
+    async function fetchProviders() {
+      if (!categoryData) return
+      setIsLoading(true)
+      const searchTerm = categoryToSpecialization[category] || categoryData.name.replace(' Training', '')
+      const data = await getProvidersBySpecialization(searchTerm)
+      setCategoryProviders(mapProvidersFromSupabase(data))
+      setIsLoading(false)
+    }
+    fetchProviders()
+  }, [category, categoryData])
 
   if (!categoryData) {
     notFound()
   }
-
-  const categoryProviders = providers.filter(p =>
-    p.specializations.some(s =>
-      s.toLowerCase().includes(categoryData.slug.replace('-', ' ')) ||
-      categoryData.slug.includes(s.toLowerCase().replace(' ', '-'))
-    )
-  )
 
   const extendedDescription = categoryExtendedDescriptions[category] || categoryData.description
   const uniqueLocations = Array.from(new Set(categoryProviders.map(p => p.location)))
@@ -117,7 +137,26 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         </div>
 
         {/* Providers Grid */}
-        {categoryProviders.length > 0 ? (
+        {isLoading ? (
+          <>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              {categoryData.name} Providers
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse">
+                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-3"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                  <div className="flex gap-2 mb-4">
+                    <div className="h-6 bg-gray-200 rounded w-16"></div>
+                    <div className="h-6 bg-gray-200 rounded w-20"></div>
+                  </div>
+                  <div className="h-10 bg-gray-200 rounded"></div>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : categoryProviders.length > 0 ? (
           <>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               {categoryData.name} Providers
