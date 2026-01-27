@@ -52,9 +52,9 @@ export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps
   return (
     <div className="card p-6 h-full flex flex-col">
       {/* Header: Logo + Name + Rating - FIXED HEIGHT */}
-      <div className="flex items-start gap-3 min-h-[4.5rem]">
+      <div className="flex items-center gap-3 min-h-[4.5rem]">
         {/* Logo with fallback chain: Clearbit -> Google Favicon -> Initials */}
-        <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden mt-0.5">
+        <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
           {clearbitUrl && !logoError ? (
             <Image
               src={clearbitUrl}
@@ -82,8 +82,8 @@ export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps
           )}
         </div>
 
-        {/* Name only */}
-        <div className="flex-1 min-w-0">
+        {/* Name - vertically centered for 1 or 2 line titles */}
+        <div className="flex-1 min-w-0 min-h-[2.5rem] flex flex-col justify-center">
           <Link href={`/providers/${provider.slug}`}>
             <h3 className="text-lg font-bold text-gray-900 hover:text-primary-600 transition-colors line-clamp-2 leading-tight">
               {provider.name}
