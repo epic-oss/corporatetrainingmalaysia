@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { CATEGORIES, LOCATIONS } from '@/lib/constants'
 
 interface HeaderProps {
@@ -18,7 +19,14 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
       <div className="container-custom">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="CorporateTrainingMY"
+              width={32}
+              height={32}
+              className="h-8 w-8 object-contain"
+            />
             <span className="text-xl md:text-2xl font-bold text-primary-600">
               CorporateTraining<span className="text-accent-600">MY</span>
             </span>
