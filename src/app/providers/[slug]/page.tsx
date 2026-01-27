@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useQuoteModal } from '@/components'
 import { getProviderBySlug } from '@/lib/supabase'
 import { Provider, mapProviderFromSupabase } from '@/lib/providers'
@@ -10,6 +11,27 @@ import { getCurrentYear } from '@/lib/utils'
 
 interface ProviderPageProps {
   params: { slug: string }
+}
+
+// Get logo URL from website using Google Favicon API
+function getLogoUrl(website: string | undefined): string | null {
+  if (!website) return null
+  try {
+    const domain = new URL(website).hostname
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+  } catch {
+    return null
+  }
+}
+
+// Get initials from company name for fallback
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .slice(0, 2)
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
 }
 
 export default function ProviderPage({ params }: ProviderPageProps) {
@@ -88,9 +110,28 @@ export default function ProviderPage({ params }: ProviderPageProps) {
                   {provider.location}
                 </span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-                {provider.name}
-              </h1>
+              <div className="flex items-center gap-4 mb-2">
+                {/* Logo */}
+                <div className="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  {getLogoUrl(provider.website) ? (
+                    <Image
+                      src={getLogoUrl(provider.website)!}
+                      alt={`${provider.name} logo`}
+                      width={64}
+                      height={64}
+                      className="object-contain"
+                      unoptimized
+                    />
+                  ) : (
+                    <span className="text-xl font-bold text-primary-600">
+                      {getInitials(provider.name)}
+                    </span>
+                  )}
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold text-white">
+                  {provider.name}
+                </h1>
+              </div>
               <p className="text-primary-100 text-lg">
                 {provider.tagline}
               </p>

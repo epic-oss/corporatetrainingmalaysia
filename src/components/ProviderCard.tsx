@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Provider } from '@/lib/providers'
 
 interface ProviderCardProps {
@@ -6,26 +7,68 @@ interface ProviderCardProps {
   onGetQuote: (providerName: string) => void
 }
 
+// Get logo URL from website using Google Favicon API
+function getLogoUrl(website: string | undefined): string | null {
+  if (!website) return null
+  try {
+    const domain = new URL(website).hostname
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+  } catch {
+    return null
+  }
+}
+
+// Get initials from company name for fallback
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .slice(0, 2)
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+}
+
 export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps) {
+  const logoUrl = getLogoUrl(provider.website)
+
   return (
     <div className="card p-6 flex flex-col h-full">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <Link href={`/providers/${provider.slug}`}>
-            <h3 className="text-lg font-bold text-gray-900 hover:text-primary-600 transition-colors">
-              {provider.name}
-            </h3>
-          </Link>
-          <div className="flex items-center mt-1 space-x-2">
-            <span className="badge badge-location text-sm">
-              {provider.location}
-            </span>
-            {provider.hrdfApproved && (
-              <span className="badge badge-hrdf text-sm font-semibold">
-                HRDF Approved
+        <div className="flex items-start gap-3 flex-1">
+          {/* Logo */}
+          <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+            {logoUrl ? (
+              <Image
+                src={logoUrl}
+                alt={`${provider.name} logo`}
+                width={40}
+                height={40}
+                className="object-contain"
+                unoptimized
+              />
+            ) : (
+              <span className="text-sm font-bold text-primary-600">
+                {getInitials(provider.name)}
               </span>
             )}
+          </div>
+          <div className="flex-1 min-w-0">
+            <Link href={`/providers/${provider.slug}`}>
+              <h3 className="text-lg font-bold text-gray-900 hover:text-primary-600 transition-colors truncate">
+                {provider.name}
+              </h3>
+            </Link>
+            <div className="flex items-center mt-1 space-x-2">
+              <span className="badge badge-location text-sm">
+                {provider.location}
+              </span>
+              {provider.hrdfApproved && (
+                <span className="badge badge-hrdf text-sm font-semibold">
+                  HRDF Approved
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
