@@ -43,6 +43,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
   verification: {
     google: 'LqiYtGK1Btu9kvTpqqsAnf2Z8ogskvzlV9ELIyGg3KY',
   },
