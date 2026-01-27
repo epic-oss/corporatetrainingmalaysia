@@ -23,9 +23,9 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
             <Image
               src="/logo.png"
               alt="CorporateTrainingMY"
-              width={32}
-              height={32}
-              className="h-8 w-8 object-contain"
+              width={40}
+              height={40}
+              className="h-10 w-10 object-contain"
             />
             <span className="text-xl md:text-2xl font-bold text-primary-600">
               CorporateTraining<span className="text-accent-600">MY</span>
