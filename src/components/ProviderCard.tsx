@@ -33,8 +33,8 @@ export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps
 
   return (
     <div className="card p-6 h-full flex flex-col">
-      {/* Header: Logo + Name + Rating */}
-      <div className="flex items-start gap-3 mb-4">
+      {/* Header: Logo + Name + Rating - FIXED HEIGHT */}
+      <div className="flex items-start gap-3 min-h-[4.5rem]">
         {/* Logo */}
         <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden mt-0.5">
           {logoUrl ? (
@@ -53,23 +53,13 @@ export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps
           )}
         </div>
 
-        {/* Name + Location */}
+        {/* Name only */}
         <div className="flex-1 min-w-0">
           <Link href={`/providers/${provider.slug}`}>
-            <h3 className="text-lg font-bold text-gray-900 hover:text-primary-600 transition-colors line-clamp-2 leading-tight min-h-[2.5rem]">
+            <h3 className="text-lg font-bold text-gray-900 hover:text-primary-600 transition-colors line-clamp-2 leading-tight">
               {provider.name}
             </h3>
           </Link>
-          <div className="flex items-center mt-1.5 gap-2 flex-wrap">
-            <span className="badge badge-location text-xs">
-              {provider.location}
-            </span>
-            {provider.hrdfApproved && (
-              <span className="badge badge-hrdf text-xs font-semibold">
-                HRDF
-              </span>
-            )}
-          </div>
         </div>
 
         {/* Rating - fixed top right */}
@@ -81,6 +71,18 @@ export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps
             {provider.rating.toFixed(1)}
           </span>
         </div>
+      </div>
+
+      {/* Location + HRDF badges - always at same position */}
+      <div className="flex items-center gap-2 flex-wrap mt-2 mb-3">
+        <span className="badge badge-location text-xs">
+          {provider.location}
+        </span>
+        {provider.hrdfApproved && (
+          <span className="badge badge-hrdf text-xs font-semibold">
+            HRDF
+          </span>
+        )}
       </div>
 
       {/* Body: Specializations + Description */}
