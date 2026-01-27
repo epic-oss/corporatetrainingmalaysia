@@ -13,8 +13,19 @@ interface ProviderPageProps {
   params: { slug: string }
 }
 
-// Get logo URL from website using Google Favicon API
-function getLogoUrl(website: string | undefined): string | null {
+// Get HD logo URL from Clearbit (primary)
+function getClearbitLogoUrl(website: string | undefined): string | null {
+  if (!website) return null
+  try {
+    const domain = new URL(website).hostname.replace('www.', '')
+    return `https://logo.clearbit.com/${domain}`
+  } catch {
+    return null
+  }
+}
+
+// Get favicon URL from Google (fallback)
+function getGoogleFaviconUrl(website: string | undefined): string | null {
   if (!website) return null
   try {
     const domain = new URL(website).hostname
@@ -24,7 +35,7 @@ function getLogoUrl(website: string | undefined): string | null {
   }
 }
 
-// Get initials from company name for fallback
+// Get initials from company name for final fallback
 function getInitials(name: string): string {
   return name
     .split(' ')
@@ -41,6 +52,8 @@ export default function ProviderPage({ params }: ProviderPageProps) {
   const [provider, setProvider] = useState<Provider | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [notFoundState, setNotFoundState] = useState(false)
+  const [logoError, setLogoError] = useState(false)
+  const [fallbackError, setFallbackError] = useState(false)
 
   useEffect(() => {
     async function fetchProvider() {
@@ -111,16 +124,27 @@ export default function ProviderPage({ params }: ProviderPageProps) {
                 </span>
               </div>
               <div className="flex items-center gap-4 mb-2">
-                {/* Logo */}
+                {/* Logo with fallback chain: Clearbit -> Google Favicon -> Initials */}
                 <div className="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center flex-shrink-0 overflow-hidden">
-                  {getLogoUrl(provider.website) ? (
+                  {getClearbitLogoUrl(provider.website) && !logoError ? (
                     <Image
-                      src={getLogoUrl(provider.website)!}
+                      src={getClearbitLogoUrl(provider.website)!}
                       alt={`${provider.name} logo`}
                       width={64}
                       height={64}
                       className="object-contain"
                       unoptimized
+                      onError={() => setLogoError(true)}
+                    />
+                  ) : getGoogleFaviconUrl(provider.website) && !fallbackError ? (
+                    <Image
+                      src={getGoogleFaviconUrl(provider.website)!}
+                      alt={`${provider.name} logo`}
+                      width={64}
+                      height={64}
+                      className="object-contain"
+                      unoptimized
+                      onError={() => setFallbackError(true)}
                     />
                   ) : (
                     <span className="text-xl font-bold text-primary-600">

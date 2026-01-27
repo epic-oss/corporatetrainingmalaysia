@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Provider } from '@/lib/providers'
@@ -7,8 +10,19 @@ interface ProviderCardProps {
   onGetQuote: (providerName: string) => void
 }
 
-// Get logo URL from website using Google Favicon API
-function getLogoUrl(website: string | undefined): string | null {
+// Get HD logo URL from Clearbit (primary)
+function getClearbitLogoUrl(website: string | undefined): string | null {
+  if (!website) return null
+  try {
+    const domain = new URL(website).hostname.replace('www.', '')
+    return `https://logo.clearbit.com/${domain}`
+  } catch {
+    return null
+  }
+}
+
+// Get favicon URL from Google (fallback)
+function getGoogleFaviconUrl(website: string | undefined): string | null {
   if (!website) return null
   try {
     const domain = new URL(website).hostname
@@ -18,7 +32,7 @@ function getLogoUrl(website: string | undefined): string | null {
   }
 }
 
-// Get initials from company name for fallback
+// Get initials from company name for final fallback
 function getInitials(name: string): string {
   return name
     .split(' ')
@@ -29,22 +43,37 @@ function getInitials(name: string): string {
 }
 
 export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps) {
-  const logoUrl = getLogoUrl(provider.website)
+  const [logoError, setLogoError] = useState(false)
+  const [fallbackError, setFallbackError] = useState(false)
+
+  const clearbitUrl = getClearbitLogoUrl(provider.website)
+  const googleFaviconUrl = getGoogleFaviconUrl(provider.website)
 
   return (
     <div className="card p-6 h-full flex flex-col">
       {/* Header: Logo + Name + Rating - FIXED HEIGHT */}
       <div className="flex items-start gap-3 min-h-[4.5rem]">
-        {/* Logo */}
+        {/* Logo with fallback chain: Clearbit -> Google Favicon -> Initials */}
         <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden mt-0.5">
-          {logoUrl ? (
+          {clearbitUrl && !logoError ? (
             <Image
-              src={logoUrl}
+              src={clearbitUrl}
               alt={`${provider.name} logo`}
               width={40}
               height={40}
               className="object-contain"
               unoptimized
+              onError={() => setLogoError(true)}
+            />
+          ) : googleFaviconUrl && !fallbackError ? (
+            <Image
+              src={googleFaviconUrl}
+              alt={`${provider.name} logo`}
+              width={40}
+              height={40}
+              className="object-contain"
+              unoptimized
+              onError={() => setFallbackError(true)}
             />
           ) : (
             <span className="text-sm font-bold text-primary-600">
