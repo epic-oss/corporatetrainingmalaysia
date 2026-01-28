@@ -4,7 +4,10 @@ export function getCurrentYear(): number {
 
 export function processTemplateVariables(text: string): string {
   const currentYear = getCurrentYear()
-  return text.replace(/\{\{currentYear\}\}/g, currentYear.toString())
+  // Support both {{year}} and {{currentYear}} patterns
+  return text
+    .replace(/\{\{year\}\}/g, currentYear.toString())
+    .replace(/\{\{currentYear\}\}/g, currentYear.toString())
 }
 
 export function formatPhoneNumber(phone: string): string {
