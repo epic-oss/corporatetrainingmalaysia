@@ -13,6 +13,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/hrdf-training-provider-list',
+        destination: '/hrdf-providers',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

@@ -70,8 +70,8 @@ export default function HRDFCalculatorPage() {
           </h1>
 
           <p className="text-lg text-primary-100 max-w-3xl">
-            Calculate your company's HRDF levy contribution and estimate claimable amounts for corporate training.
-            Free calculator based on HRD Corp's allowable cost matrix.
+            Calculate your company&apos;s HRDF levy contribution and estimate claimable amounts for corporate training.
+            Free calculator based on HRD Corp&apos;s allowable cost matrix.
           </p>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function HRDFCalculatorPage() {
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Monthly Contribution</h3>
               <p className="text-sm text-gray-600">
-                Companies contribute 1% of employees' monthly wages to HRD Corp levy fund.
+                Companies contribute 1% of employees&apos; monthly wages to HRD Corp levy fund.
               </p>
             </div>
 
