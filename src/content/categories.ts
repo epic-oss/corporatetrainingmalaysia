@@ -320,4 +320,247 @@ export const categories: Record<string, CategoryContent> = {
       },
     ],
   },
+
+  // ==========================================
+  // TRENDING CATEGORIES 2026
+  // ==========================================
+
+  'ai-training': {
+    name: 'AI & Prompt Engineering Training',
+    dbValue: 'AI',
+    metaTitle: 'AI Training Malaysia | ChatGPT & Prompt Engineering {{year}}',
+    metaDescription: 'Find HRDF-approved AI and prompt engineering training in Malaysia. Upskill your team with ChatGPT, generative AI, and machine learning courses.',
+    heading: 'AI & Prompt Engineering Training in Malaysia ({{year}})',
+    intro: 'Artificial Intelligence is transforming every industry. Equip your workforce with practical AI skills including prompt engineering, ChatGPT for business, and AI-powered automation.',
+    benefits: [
+      'Master prompt engineering for ChatGPT and other AI tools',
+      'Automate repetitive tasks with AI assistants',
+      'Use AI for content creation, analysis, and decision-making',
+      'Understand AI ethics and responsible implementation',
+      'Build AI-powered workflows for your department',
+    ],
+    targetAudience: 'All employees looking to leverage AI in their daily work, especially managers, marketers, HR professionals, and administrative staff.',
+    faqs: [
+      {
+        question: 'Is AI training HRDF claimable?',
+        answer: 'Yes, most AI and digital skills training programs from registered providers are HRDF/HRD Corp claimable.',
+      },
+      {
+        question: 'Do I need technical background for AI training?',
+        answer: 'No, most corporate AI training focuses on practical applications using tools like ChatGPT, not coding. Technical courses are available for IT teams.',
+      },
+      {
+        question: 'How long is typical AI training?',
+        answer: 'AI training ranges from 1-day introductory workshops to 3-5 day comprehensive programs depending on depth required.',
+      },
+      {
+        question: 'What AI tools are covered?',
+        answer: 'Common tools include ChatGPT, Microsoft Copilot, Google Gemini, DALL-E, and industry-specific AI applications.',
+      },
+    ],
+  },
+  'cybersecurity-training': {
+    name: 'Cybersecurity Training',
+    dbValue: 'Cybersecurity',
+    metaTitle: 'Cybersecurity Training Malaysia | HRDF Claimable {{year}}',
+    metaDescription: 'Protect your business with cybersecurity training in Malaysia. HRDF-claimable courses on data protection, threat detection, and security awareness.',
+    heading: 'Cybersecurity Training Providers in Malaysia ({{year}})',
+    intro: 'With cyber threats increasing 300% since 2020, cybersecurity training is essential for every Malaysian business. Protect your organization with security awareness and technical training.',
+    benefits: [
+      'Identify phishing attacks and social engineering threats',
+      'Implement data protection best practices',
+      'Understand Malaysia PDPA compliance requirements',
+      'Respond effectively to security incidents',
+      'Build a security-first culture in your organization',
+    ],
+    targetAudience: 'All employees for security awareness training, IT teams for technical cybersecurity skills, and management for governance and compliance.',
+    faqs: [
+      {
+        question: 'Is cybersecurity training mandatory in Malaysia?',
+        answer: 'While not mandatory for all businesses, companies handling personal data must comply with PDPA. Many industries like finance and healthcare have specific security training requirements.',
+      },
+      {
+        question: 'What certifications are available?',
+        answer: 'Popular certifications include CompTIA Security+, CISSP, CEH (Certified Ethical Hacker), and ISO 27001 Lead Auditor.',
+      },
+      {
+        question: 'How often should cybersecurity training be conducted?',
+        answer: 'Security awareness training should be conducted at least annually, with quarterly refreshers recommended. Technical training depends on role requirements.',
+      },
+      {
+        question: 'Is cybersecurity training HRDF claimable?',
+        answer: 'Yes, cybersecurity training from HRD Corp registered providers is claimable under the levy system.',
+      },
+    ],
+  },
+  'data-analytics-training': {
+    name: 'Data Analytics Training',
+    dbValue: 'Data Analytics',
+    metaTitle: 'Data Analytics Training Malaysia | Excel, Power BI, SQL {{year}}',
+    metaDescription: 'Master data analytics with training in Malaysia. Learn Excel, Power BI, SQL, and Python for data-driven decision making. HRDF claimable.',
+    heading: 'Data Analytics Training in Malaysia ({{year}})',
+    intro: 'Data-driven companies outperform competitors by 23%. Empower your team to analyze data, create insights, and make better business decisions with practical analytics training.',
+    benefits: [
+      'Advanced Excel for business analytics and reporting',
+      'Create interactive dashboards with Power BI or Tableau',
+      'Query databases using SQL fundamentals',
+      'Statistical analysis and data visualization',
+      'Transform raw data into actionable business insights',
+    ],
+    targetAudience: 'Finance teams, marketing analysts, operations managers, HR professionals, and anyone who works with data for reporting and decision-making.',
+    faqs: [
+      {
+        question: 'What tools are taught in data analytics training?',
+        answer: 'Common tools include Microsoft Excel (advanced), Power BI, Tableau, SQL, and Python/R for more technical programs.',
+      },
+      {
+        question: 'Do I need programming knowledge?',
+        answer: 'No, most business analytics courses focus on tools like Excel and Power BI. Programming courses (Python, SQL) are available for those wanting technical skills.',
+      },
+      {
+        question: 'How long does it take to learn data analytics?',
+        answer: 'Basic proficiency takes 2-3 days of training. Intermediate skills require 5-10 days across multiple courses.',
+      },
+      {
+        question: 'Is data analytics training HRDF claimable?',
+        answer: 'Yes, data analytics and business intelligence training is claimable when conducted by HRD Corp registered providers.',
+      },
+    ],
+  },
+  'digital-marketing-training': {
+    name: 'Digital Marketing Training',
+    dbValue: 'Digital Marketing',
+    metaTitle: 'Digital Marketing Training Malaysia | SEO, Social Media, Ads {{year}}',
+    metaDescription: 'Boost your marketing skills with digital marketing training in Malaysia. Learn SEO, Google Ads, social media marketing, and content strategy.',
+    heading: 'Digital Marketing Training in Malaysia ({{year}})',
+    intro: 'Digital marketing skills are essential in today\'s market. From SEO to social media advertising, equip your marketing team with the latest strategies to reach customers online.',
+    benefits: [
+      'Search Engine Optimization (SEO) fundamentals and advanced tactics',
+      'Google Ads and Meta (Facebook/Instagram) advertising',
+      'Social media marketing strategy and content creation',
+      'Email marketing and marketing automation',
+      'Analytics and measuring marketing ROI',
+    ],
+    targetAudience: 'Marketing teams, business owners, sales professionals, entrepreneurs, and anyone responsible for promoting products or services online.',
+    faqs: [
+      {
+        question: 'What platforms are covered in digital marketing training?',
+        answer: 'Training typically covers Google (Search, Ads, Analytics), Meta (Facebook, Instagram), LinkedIn, TikTok, and email marketing platforms.',
+      },
+      {
+        question: 'Is digital marketing training suitable for beginners?',
+        answer: 'Yes, courses range from beginner-friendly introductions to advanced specialist programs. Most providers offer multiple levels.',
+      },
+      {
+        question: 'How much does digital marketing training cost?',
+        answer: 'Prices range from RM1,500-RM5,000 for 2-3 day programs. Comprehensive certifications may cost more.',
+      },
+      {
+        question: 'Is digital marketing training HRDF claimable?',
+        answer: 'Yes, digital marketing training from registered providers is HRD Corp claimable.',
+      },
+    ],
+  },
+  'agile-training': {
+    name: 'Agile & Scrum Training',
+    dbValue: 'Agile',
+    metaTitle: 'Agile & Scrum Training Malaysia | Certified Courses {{year}}',
+    metaDescription: 'Get certified in Agile and Scrum methodologies. HRDF-claimable Agile training in Malaysia for project managers and development teams.',
+    heading: 'Agile & Scrum Training in Malaysia ({{year}})',
+    intro: 'Agile methodologies help teams deliver faster and adapt to change. Whether you need Scrum certification or Agile transformation training, find the right provider for your team.',
+    benefits: [
+      'Scrum framework fundamentals and advanced practices',
+      'Agile project management and sprint planning',
+      'Kanban and Lean methodologies',
+      'Prepare for PSM, CSM, or SAFe certifications',
+      'Lead Agile transformation in your organization',
+    ],
+    targetAudience: 'Project managers, product owners, software developers, team leads, and organizations undergoing digital transformation.',
+    faqs: [
+      {
+        question: 'What Agile certifications are available?',
+        answer: 'Popular certifications include Certified ScrumMaster (CSM), Professional Scrum Master (PSM), SAFe Agilist, and PMI-ACP.',
+      },
+      {
+        question: 'Is Agile only for software teams?',
+        answer: 'No, Agile principles apply to any team. Marketing, HR, finance, and operations teams increasingly use Agile methodologies.',
+      },
+      {
+        question: 'How long is Scrum certification training?',
+        answer: 'Most Scrum certification courses are 2 days, followed by an online examination.',
+      },
+      {
+        question: 'Is Agile training HRDF claimable?',
+        answer: 'Yes, Agile and Scrum training from HRD Corp registered providers is claimable.',
+      },
+    ],
+  },
+  'esg-sustainability-training': {
+    name: 'ESG & Sustainability Training',
+    dbValue: 'ESG',
+    metaTitle: 'ESG Training Malaysia | Sustainability & Green Skills {{year}}',
+    metaDescription: 'Prepare for Malaysia green economy with ESG and sustainability training. Learn environmental compliance, sustainable practices, and ESG reporting.',
+    heading: 'ESG & Sustainability Training in Malaysia ({{year}})',
+    intro: 'With Malaysia targeting net-zero by 2050, ESG skills are increasingly valuable. Train your team on sustainability practices, environmental compliance, and ESG reporting.',
+    benefits: [
+      'Understand ESG frameworks and reporting standards',
+      'Environmental compliance and green practices',
+      'Sustainability strategy development',
+      'Carbon footprint measurement and reduction',
+      'Prepare for Bursa Malaysia ESG requirements',
+    ],
+    targetAudience: 'Sustainability officers, compliance teams, management, operations managers, and companies preparing for ESG reporting requirements.',
+    faqs: [
+      {
+        question: 'Is ESG training mandatory in Malaysia?',
+        answer: 'While not mandatory for all companies, Bursa Malaysia requires listed companies to report on sustainability. ESG skills are increasingly expected.',
+      },
+      {
+        question: 'What ESG frameworks are covered?',
+        answer: 'Training typically covers GRI Standards, TCFD, UN SDGs, Bursa Malaysia Sustainability Reporting Guide, and ISO 14001.',
+      },
+      {
+        question: 'Who should attend ESG training?',
+        answer: 'Sustainability teams, finance (for ESG reporting), operations (for implementation), and senior management for strategy.',
+      },
+      {
+        question: 'Is ESG training HRDF claimable?',
+        answer: 'Yes, ESG and sustainability training from registered providers is HRD Corp claimable.',
+      },
+    ],
+  },
+  'financial-modelling-training': {
+    name: 'Financial Modelling Training',
+    dbValue: 'Financial Modelling',
+    metaTitle: 'Financial Modelling Training Malaysia | Excel & Valuation {{year}}',
+    metaDescription: 'Master financial modelling with training in Malaysia. Learn Excel-based modelling, valuation techniques, and financial analysis. HRDF claimable.',
+    heading: 'Financial Modelling Training in Malaysia ({{year}})',
+    intro: 'Build robust financial models for budgeting, forecasting, and investment decisions. Essential skills for finance professionals in banking, corporate finance, and FP&A roles.',
+    benefits: [
+      'Build 3-statement financial models in Excel',
+      'DCF valuation and comparable company analysis',
+      'Scenario analysis and sensitivity testing',
+      'M&A modelling and LBO fundamentals',
+      'Best practices for model structure and auditing',
+    ],
+    targetAudience: 'Finance managers, financial analysts, accountants, investment professionals, and anyone involved in budgeting, forecasting, or valuation.',
+    faqs: [
+      {
+        question: 'What Excel level is required?',
+        answer: 'Intermediate Excel skills are recommended. You should be comfortable with formulas, functions, and basic data manipulation.',
+      },
+      {
+        question: 'Is financial modelling training HRDF claimable?',
+        answer: 'Yes, financial modelling and finance-related training from registered providers is HRD Corp claimable.',
+      },
+      {
+        question: 'How long is financial modelling training?',
+        answer: 'Basic courses are 2 days. Comprehensive programs covering advanced modelling and valuation take 3-5 days.',
+      },
+      {
+        question: 'What industries need financial modelling?',
+        answer: 'Banking, private equity, corporate finance, consulting, and any company doing budgeting, forecasting, or investment analysis.',
+      },
+    ],
+  },
 }
