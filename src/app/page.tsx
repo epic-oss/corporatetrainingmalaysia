@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { ProviderCard, StatsBar, useQuoteModal } from '@/components'
+import FactCard from '@/components/FactCard'
 import { CATEGORIES, LOCATIONS, ALL_STATES, TRAINING_TYPES } from '@/lib/constants'
 import { getFeaturedProviders } from '@/lib/supabase'
 import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
@@ -111,6 +112,36 @@ export default function HomePage() {
 
       {/* Stats Bar */}
       <StatsBar />
+
+      {/* Quick Facts Section - AI Optimized */}
+      <section className="py-16 md:py-20 bg-gray-50">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="section-heading">Corporate Training Malaysia: Quick Facts ({currentYear})</h2>
+            <p className="section-subheading">
+              Everything you need to know about corporate training in Malaysia
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <FactCard
+              question="How much does corporate training cost in Malaysia?"
+              answer="Corporate training in Malaysia typically costs RM2,000-RM15,000 per day depending on the program type, trainer expertise, and group size. HRDF-registered companies can claim back these training costs through their levy contributions."
+            />
+            <FactCard
+              question="What is HRDF claimable training?"
+              answer="HRDF (now HRD Corp) allows Malaysian companies with 10+ employees to claim back training costs. Companies contribute 1% of employee wages as levy and can claim up to 100% for approved training programs from registered providers."
+            />
+            <FactCard
+              question="How many corporate training providers are in Malaysia?"
+              answer="There are over 1,000 HRD Corp registered training providers in Malaysia. CorporateTrainingMY.com lists 109+ verified providers across Kuala Lumpur, Selangor, Penang, Johor and other states."
+            />
+            <FactCard
+              question="What are the most popular corporate training programs?"
+              answer="The most in-demand corporate training in Malaysia includes: Leadership Training, Digital Marketing, AI & Prompt Engineering, Data Analytics & Power BI, Cybersecurity, and Team Building programs."
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Featured Providers */}
       <section className="py-16 md:py-20">

@@ -28,15 +28,24 @@ export async function POST(request: NextRequest) {
   try {
     const body: QuoteFormData = await request.json()
 
-    // Validate required fields
+    // Validate required fields - check for both existence and non-empty strings
     const requiredFields = ['companyName', 'contactPerson', 'email', 'phone', 'trainingType', 'numberOfParticipants', 'budgetRange']
     for (const field of requiredFields) {
-      if (!body[field as keyof QuoteFormData]) {
+      const value = body[field as keyof QuoteFormData]
+      if (!value || (typeof value === 'string' && value.trim() === '')) {
         return NextResponse.json(
           { error: `Missing required field: ${field}` },
           { status: 400 }
         )
       }
+    }
+
+    // Basic spam check - reject if company name or contact is too short
+    if (body.companyName.trim().length < 2 || body.contactPerson.trim().length < 2) {
+      return NextResponse.json(
+        { error: 'Invalid submission' },
+        { status: 400 }
+      )
     }
 
     // Validate email format

@@ -99,16 +99,9 @@ export default function FloatingElements({ onOpenQuoteModal }: FloatingElementsP
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          <div className="flex items-center gap-3 pr-4">
-            <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </div>
-            <div className="text-sm">
-              <p className="font-medium text-gray-900">{currentProof.company} from {currentProof.location}</p>
-              <p className="text-gray-500 text-xs">{currentProof.action} • {currentProof.time}</p>
-            </div>
+          <div className="pr-4">
+            <p className="font-medium text-gray-900 text-sm">{currentProof.company} from {currentProof.location}</p>
+            <p className="text-gray-500 text-xs">{currentProof.action} • {currentProof.time}</p>
           </div>
         </div>
       )}

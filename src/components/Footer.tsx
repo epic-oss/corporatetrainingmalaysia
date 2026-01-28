@@ -47,23 +47,28 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/hrdf-training-providers-malaysia" className="text-primary-200 hover:text-white transition-colors">
+                <Link href="/best-corporate-training-malaysia" className="text-primary-200 hover:text-white transition-colors">
+                  Best Training Companies
+                </Link>
+              </li>
+              <li>
+                <Link href="/corporate-training-cost-malaysia" className="text-primary-200 hover:text-white transition-colors">
+                  Training Cost Guide
+                </Link>
+              </li>
+              <li>
+                <Link href="/hrdf-providers" className="text-primary-200 hover:text-white transition-colors">
                   HRDF Providers
+                </Link>
+              </li>
+              <li>
+                <Link href="/hrdf-guide" className="text-primary-200 hover:text-white transition-colors">
+                  HRDF Guide
                 </Link>
               </li>
               <li>
                 <Link href="/tools/hrdf-calculator" className="text-primary-200 hover:text-white transition-colors">
                   HRDF Calculator
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-primary-200 hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-primary-200 hover:text-white transition-colors">
-                  Contact
                 </Link>
               </li>
               <li>

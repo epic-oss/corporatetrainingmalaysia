@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProviderCard, useQuoteModal } from '@/components'
+import SchemaMarkup, { generateFAQSchema } from '@/components/SchemaMarkup'
 import { getProvidersBySpecialization } from '@/lib/supabase'
 import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { getCurrentYear, processTemplateVariables } from '@/lib/utils'
@@ -39,8 +40,16 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   const heading = processTemplateVariables(categoryContent.heading)
 
+  // Generate FAQ schema for AI discovery
+  const faqSchema = categoryContent.faqs.length > 0
+    ? generateFAQSchema(categoryContent.faqs)
+    : null
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* FAQ Schema for AI Discovery */}
+      {faqSchema && <SchemaMarkup schema={faqSchema} />}
+
       {/* Hero Section */}
       <div className="bg-primary-600 py-12 md:py-16">
         <div className="container-custom">
@@ -81,8 +90,43 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         </div>
       </div>
 
+      {/* At a Glance Summary - AI Optimized */}
+      <div className="container-custom py-8">
+        <div className="bg-white border rounded-lg p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            {categoryContent.name} in Malaysia - At a Glance
+          </h2>
+          <ul className="grid md:grid-cols-2 gap-3 text-gray-600">
+            <li className="flex items-start">
+              <span className="text-primary-600 mr-2 font-bold">•</span>
+              <span><strong>Average Cost:</strong> RM3,000-RM10,000 per day</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-primary-600 mr-2 font-bold">•</span>
+              <span><strong>Providers:</strong> {providers.length}+ in our directory</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-primary-600 mr-2 font-bold">•</span>
+              <span><strong>HRDF Claimable:</strong> Yes, up to RM8,000/day</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-primary-600 mr-2 font-bold">•</span>
+              <span><strong>Popular Locations:</strong> Kuala Lumpur, Selangor, Penang</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-primary-600 mr-2 font-bold">•</span>
+              <span><strong>Typical Duration:</strong> 1-3 days</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-primary-600 mr-2 font-bold">•</span>
+              <span><strong>Group Size:</strong> 10-30 participants</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       {/* Main Content */}
-      <div className="container-custom py-12">
+      <div className="container-custom py-8">
         {/* Provider Count */}
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold text-gray-900">
