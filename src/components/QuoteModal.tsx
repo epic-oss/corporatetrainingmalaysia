@@ -10,34 +10,80 @@ interface QuoteModalProps {
 }
 
 interface FormData {
+  // Contact info
   companyName: string
   contactPerson: string
   email: string
   phone: string
+  // Training details
   trainingType: string
-  participants: string
-  budget: string
+  numberOfParticipants: string
+  budgetRange: string
   hrdfRequired: boolean
-  details: string
+  trainingDetails: string
   preferredProvider: string
+  // Hidden tracking fields
+  source: string
+  device: string
+  referrer: string
+  utmSource: string
+  utmMedium: string
+  utmCampaign: string
+  submittedAt: string
+  pageUrl: string
 }
 
+const getInitialFormData = (preferredProvider: string): FormData => ({
+  companyName: '',
+  contactPerson: '',
+  email: '',
+  phone: '',
+  trainingType: '',
+  numberOfParticipants: '',
+  budgetRange: '',
+  hrdfRequired: false,
+  trainingDetails: '',
+  preferredProvider,
+  // Tracking fields initialized empty - will be populated by useEffect
+  source: '',
+  device: '',
+  referrer: '',
+  utmSource: '',
+  utmMedium: '',
+  utmCampaign: '',
+  submittedAt: '',
+  pageUrl: '',
+})
+
 export default function QuoteModal({ isOpen, onClose, preferredProvider = '' }: QuoteModalProps) {
-  const [formData, setFormData] = useState<FormData>({
-    companyName: '',
-    contactPerson: '',
-    email: '',
-    phone: '',
-    trainingType: '',
-    participants: '',
-    budget: '',
-    hrdfRequired: false,
-    details: '',
-    preferredProvider: preferredProvider,
-  })
+  const [formData, setFormData] = useState<FormData>(getInitialFormData(preferredProvider))
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [error, setError] = useState('')
+
+  // Auto-detect device and source
+  useEffect(() => {
+    const getDevice = () => {
+      if (typeof navigator === 'undefined') return 'unknown'
+      const ua = navigator.userAgent
+      if (/tablet|ipad/i.test(ua)) return 'tablet'
+      if (/mobile|android|iphone/i.test(ua)) return 'mobile'
+      return 'desktop'
+    }
+
+    const params = new URLSearchParams(window.location.search)
+
+    setFormData(prev => ({
+      ...prev,
+      device: getDevice(),
+      source: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      utmSource: params.get('utm_source') || '',
+      utmMedium: params.get('utm_medium') || '',
+      utmCampaign: params.get('utm_campaign') || '',
+      pageUrl: window.location.href,
+    }))
+  }, [])
 
   useEffect(() => {
     setFormData(prev => ({ ...prev, preferredProvider }))
@@ -59,13 +105,19 @@ export default function QuoteModal({ isOpen, onClose, preferredProvider = '' }: 
     setIsSubmitting(true)
     setError('')
 
+    // Add submission timestamp
+    const submissionData = {
+      ...formData,
+      submittedAt: new Date().toISOString(),
+    }
+
     try {
       const response = await fetch('/api/submit-quote', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submissionData),
       })
 
       if (!response.ok) {
@@ -73,18 +125,7 @@ export default function QuoteModal({ isOpen, onClose, preferredProvider = '' }: 
       }
 
       setIsSuccess(true)
-      setFormData({
-        companyName: '',
-        contactPerson: '',
-        email: '',
-        phone: '',
-        trainingType: '',
-        participants: '',
-        budget: '',
-        hrdfRequired: false,
-        details: '',
-        preferredProvider: '',
-      })
+      setFormData(getInitialFormData(''))
     } catch {
       setError('Something went wrong. Please try again.')
     } finally {
@@ -234,8 +275,8 @@ export default function QuoteModal({ isOpen, onClose, preferredProvider = '' }: 
                       <select
                         required
                         className="input-field"
-                        value={formData.participants}
-                        onChange={(e) => setFormData({ ...formData, participants: e.target.value })}
+                        value={formData.numberOfParticipants}
+                        onChange={(e) => setFormData({ ...formData, numberOfParticipants: e.target.value })}
                       >
                         <option value="">Select range</option>
                         {PARTICIPANT_RANGES.map((range) => (
@@ -250,8 +291,8 @@ export default function QuoteModal({ isOpen, onClose, preferredProvider = '' }: 
                       <select
                         required
                         className="input-field"
-                        value={formData.budget}
-                        onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                        value={formData.budgetRange}
+                        onChange={(e) => setFormData({ ...formData, budgetRange: e.target.value })}
                       >
                         <option value="">Select budget</option>
                         {BUDGET_RANGES.map((range) => (
@@ -282,8 +323,8 @@ export default function QuoteModal({ isOpen, onClose, preferredProvider = '' }: 
                       rows={3}
                       className="input-field"
                       placeholder="Tell us more about your training needs..."
-                      value={formData.details}
-                      onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                      value={formData.trainingDetails}
+                      onChange={(e) => setFormData({ ...formData, trainingDetails: e.target.value })}
                     />
                   </div>
 

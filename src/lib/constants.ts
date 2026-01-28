@@ -49,14 +49,27 @@ export const CATEGORIES = [
 ] as const
 
 export const TRAINING_TYPES = [
-  'Leadership',
-  'Sales',
-  'Communication',
-  'Technical',
-  'Compliance',
-  'Team Building',
+  // Core categories
+  'Leadership Training',
+  'Management Training',
+  'Sales Training',
+  'Communication Skills',
   'Soft Skills',
+  'Team Building',
+  'HR Training',
+  // Trending 2026
+  'AI & Prompt Engineering',
+  'Data Analytics & Power BI',
+  'Digital Marketing',
+  'Cybersecurity',
+  'Agile & Scrum',
+  'Financial Modelling',
+  'ESG & Sustainability',
+  // Technical/Compliance
+  'Safety & Compliance',
+  'Technical Training',
   'Industry-Specific',
+  'Other',
 ] as const
 
 export const PRICE_RANGES = [
@@ -66,17 +79,20 @@ export const PRICE_RANGES = [
 ] as const
 
 export const PARTICIPANT_RANGES = [
-  '10-20',
-  '21-50',
-  '51-100',
-  '100+',
+  '1-10 pax',
+  '11-30 pax',
+  '31-50 pax',
+  '51-100 pax',
+  '100+ pax',
 ] as const
 
 export const BUDGET_RANGES = [
   'Below RM5,000',
-  'RM5,000 - RM15,000',
-  'RM15,000 - RM30,000',
-  'Above RM30,000',
+  'RM5,000 - RM10,000',
+  'RM10,000 - RM20,000',
+  'RM20,000 - RM50,000',
+  'Above RM50,000',
+  'Not sure yet',
 ] as const
 
 export const ALL_STATES = [

@@ -1,16 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 interface QuoteFormData {
+  // Contact info
   companyName: string
   contactPerson: string
   email: string
   phone: string
+  // Training details
   trainingType: string
-  participants: string
-  budget: string
+  numberOfParticipants: string
+  budgetRange: string
   hrdfRequired: boolean
-  details: string
+  trainingDetails: string
   preferredProvider: string
+  // Hidden tracking fields
+  source: string
+  device: string
+  referrer: string
+  utmSource: string
+  utmMedium: string
+  utmCampaign: string
+  submittedAt: string
+  pageUrl: string
 }
 
 export async function POST(request: NextRequest) {
@@ -18,7 +29,7 @@ export async function POST(request: NextRequest) {
     const body: QuoteFormData = await request.json()
 
     // Validate required fields
-    const requiredFields = ['companyName', 'contactPerson', 'email', 'phone', 'trainingType', 'participants', 'budget']
+    const requiredFields = ['companyName', 'contactPerson', 'email', 'phone', 'trainingType', 'numberOfParticipants', 'budgetRange']
     for (const field of requiredFields) {
       if (!body[field as keyof QuoteFormData]) {
         return NextResponse.json(
@@ -37,22 +48,33 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Prepare webhook payload
+    // Prepare webhook payload with all fields including tracking
     const webhookPayload = {
       lead_type: 'corporate_training_my',
-      timestamp: new Date().toISOString(),
+      timestamp: body.submittedAt || new Date().toISOString(),
       source: 'CorporateTrainingMY Directory',
       data: {
+        // Contact info
         company_name: body.companyName,
         contact_person: body.contactPerson,
         email: body.email,
         phone: body.phone,
+        // Training details
         training_type: body.trainingType,
-        participants: body.participants,
-        budget: body.budget,
+        number_of_participants: body.numberOfParticipants,
+        budget_range: body.budgetRange,
         hrdf_required: body.hrdfRequired,
-        details: body.details || '',
+        training_details: body.trainingDetails || '',
         preferred_provider: body.preferredProvider || 'Not specified',
+      },
+      tracking: {
+        source_page: body.source || '',
+        device: body.device || '',
+        referrer: body.referrer || 'direct',
+        utm_source: body.utmSource || '',
+        utm_medium: body.utmMedium || '',
+        utm_campaign: body.utmCampaign || '',
+        page_url: body.pageUrl || '',
       }
     }
 

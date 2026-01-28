@@ -4,6 +4,7 @@ import { useState, createContext, useContext, ReactNode } from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import QuoteModal from './QuoteModal'
+import FloatingElements from './FloatingElements'
 
 interface QuoteModalContextType {
   openQuoteModal: (providerName?: string) => void
@@ -48,6 +49,7 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
           onClose={closeQuoteModal}
           preferredProvider={preferredProvider}
         />
+        <FloatingElements onOpenQuoteModal={() => openQuoteModal()} />
       </div>
     </QuoteModalContext.Provider>
   )
