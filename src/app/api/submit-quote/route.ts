@@ -78,26 +78,24 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Send to webhook if URL is configured
-    const webhookUrl = process.env.WEBHOOK_URL
+    // Send to Make.com webhook
+    const webhookUrl = 'https://hook.us2.make.com/tnhws7oviers9q1gp2uh4rhffluikksx'
 
-    if (webhookUrl && webhookUrl !== 'https://hook.make.com/placeholder') {
-      try {
-        const webhookResponse = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(webhookPayload),
-        })
+    try {
+      const webhookResponse = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(webhookPayload),
+      })
 
-        if (!webhookResponse.ok) {
-          console.error('Webhook failed:', await webhookResponse.text())
-        }
-      } catch (webhookError) {
-        console.error('Webhook error:', webhookError)
-        // Don't fail the request if webhook fails
+      if (!webhookResponse.ok) {
+        console.error('Webhook failed:', await webhookResponse.text())
       }
+    } catch (webhookError) {
+      console.error('Webhook error:', webhookError)
+      // Don't fail the request if webhook fails
     }
 
     // Log the submission (for development)

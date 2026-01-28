@@ -74,11 +74,11 @@ export default function FloatingElements({ onOpenQuoteModal }: FloatingElementsP
 
   return (
     <>
-      {/* Back to Top Button - Highest position (bottom-36 right-4) */}
+      {/* Back to Top Button - Highest position (bottom-32 right-4) */}
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-36 right-4 z-40 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-all border border-gray-200 animate-fade-in"
+          className="fixed bottom-32 right-4 z-40 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-all border border-gray-200 animate-fade-in"
           aria-label="Back to top"
         >
           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,9 +87,9 @@ export default function FloatingElements({ onOpenQuoteModal }: FloatingElementsP
         </button>
       )}
 
-      {/* Social Proof Notification - Bottom Left (bottom-24 on desktop, bottom-20 on mobile) */}
+      {/* Social Proof Notification - Right side (bottom-20) */}
       {showSocialProof && (
-        <div className="fixed bottom-20 md:bottom-24 left-4 z-40 bg-white shadow-lg rounded-lg p-3 max-w-xs animate-slide-up border border-gray-100">
+        <div className="fixed bottom-20 right-4 z-40 bg-white shadow-lg rounded-lg p-3 max-w-xs animate-slide-up border border-gray-100">
           <button
             onClick={() => setShowSocialProof(false)}
             className="absolute top-1 right-1 text-gray-400 hover:text-gray-600 p-1"
