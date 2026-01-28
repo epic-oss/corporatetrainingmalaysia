@@ -19,7 +19,7 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
       <div className="container-custom">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <Image
               src="/logo.png"
               alt="CorporateTrainingMY"
@@ -27,16 +27,16 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
               height={40}
               className="h-10 w-10 object-contain"
             />
-            <span className="text-xl md:text-2xl font-bold text-primary-600">
+            <span className="text-xl font-bold text-primary-600 hidden sm:inline">
               CorporateTraining<span className="text-accent-600">MY</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden xl:flex items-center gap-5">
             <Link
               href="/providers"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-sm text-gray-700 hover:text-primary-600 font-medium transition-colors whitespace-nowrap"
             >
               Providers
             </Link>
@@ -46,7 +46,7 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
               <button
                 onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
                 onBlur={() => setTimeout(() => setIsCategoriesOpen(false), 150)}
-                className="text-gray-700 hover:text-primary-600 font-medium transition-colors flex items-center"
+                className="text-sm text-gray-700 hover:text-primary-600 font-medium transition-colors flex items-center whitespace-nowrap"
               >
                 Categories
                 <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,7 +59,7 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
                     <Link
                       key={category.slug}
                       href={`/${category.slug}-training-malaysia`}
-                      className="block px-4 py-2 text-gray-700 hover:bg-primary-50 hover:text-primary-600"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600"
                     >
                       {category.name}
                     </Link>
@@ -73,7 +73,7 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
               <button
                 onClick={() => setIsLocationsOpen(!isLocationsOpen)}
                 onBlur={() => setTimeout(() => setIsLocationsOpen(false), 150)}
-                className="text-gray-700 hover:text-primary-600 font-medium transition-colors flex items-center"
+                className="text-sm text-gray-700 hover:text-primary-600 font-medium transition-colors flex items-center whitespace-nowrap"
               >
                 Locations
                 <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,7 +86,7 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
                     <Link
                       key={location.slug}
                       href={`/corporate-training-${location.slug}`}
-                      className="block px-4 py-2 text-gray-700 hover:bg-primary-50 hover:text-primary-600"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600"
                     >
                       {location.name}
                     </Link>
@@ -96,36 +96,36 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
             </div>
 
             <Link
-              href="/hrdf-training-providers-malaysia"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+              href="/hrdf-providers"
+              className="text-sm text-gray-700 hover:text-primary-600 font-medium transition-colors whitespace-nowrap"
             >
               HRDF Providers
             </Link>
 
             <Link
               href="/tools/hrdf-calculator"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-sm text-gray-700 hover:text-primary-600 font-medium transition-colors whitespace-nowrap"
             >
-              HRDF Calculator
+              Calculator
             </Link>
 
             <Link
               href="/about"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-sm text-gray-700 hover:text-primary-600 font-medium transition-colors whitespace-nowrap"
             >
               About
             </Link>
           </nav>
 
           {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden xl:flex items-center gap-3">
             <Link
               href="/for-providers"
-              className="text-primary-600 hover:text-primary-700 font-medium transition-colors"
+              className="text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors whitespace-nowrap"
             >
               List Your Company
             </Link>
-            <button onClick={onOpenQuoteModal} className="btn-accent">
+            <button onClick={onOpenQuoteModal} className="btn-accent text-sm px-4 py-2">
               Get Quotes
             </button>
           </div>
@@ -133,7 +133,7 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-gray-700"
+            className="xl:hidden p-2 text-gray-700"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMobileMenuOpen ? (
@@ -147,7 +147,7 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t">
+          <div className="xl:hidden py-4 border-t">
             <nav className="flex flex-col space-y-3">
               <Link
                 href="/providers"
@@ -190,7 +190,7 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
               </div>
 
               <Link
-                href="/hrdf-training-providers-malaysia"
+                href="/hrdf-providers"
                 className="text-gray-700 hover:text-primary-600 font-medium py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
