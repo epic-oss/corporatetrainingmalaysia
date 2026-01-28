@@ -52,6 +52,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/tools/hrdf-calculator" className="text-primary-200 hover:text-white transition-colors">
+                  HRDF Calculator
+                </Link>
+              </li>
+              <li>
                 <Link href="/about" className="text-primary-200 hover:text-white transition-colors">
                   About Us
                 </Link>

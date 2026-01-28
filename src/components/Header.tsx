@@ -103,6 +103,13 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
             </Link>
 
             <Link
+              href="/tools/hrdf-calculator"
+              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+            >
+              HRDF Calculator
+            </Link>
+
+            <Link
               href="/about"
               className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
             >
@@ -188,6 +195,14 @@ export default function Header({ onOpenQuoteModal }: HeaderProps) {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 HRDF Providers
+              </Link>
+
+              <Link
+                href="/tools/hrdf-calculator"
+                className="text-gray-700 hover:text-primary-600 font-medium py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                HRDF Calculator
               </Link>
 
               <Link
