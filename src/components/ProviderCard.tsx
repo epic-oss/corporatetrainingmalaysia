@@ -139,16 +139,16 @@ export default function ProviderCard({ provider, onGetQuote }: ProviderCardProps
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           <Link
             href={`/providers/${provider.slug}`}
-            className="flex-1 text-center py-2 px-4 border border-primary-600 text-primary-600 rounded-lg font-medium hover:bg-primary-50 transition-colors text-sm"
+            className="flex-1 text-center py-2 px-3 border border-primary-600 text-primary-600 rounded-lg font-medium hover:bg-primary-50 transition-colors text-xs"
           >
             View Profile
           </Link>
           <button
             onClick={() => onGetQuote(provider.name)}
-            className="flex-1 py-2 px-4 bg-accent-600 text-white rounded-lg font-medium hover:bg-accent-700 transition-colors text-sm"
+            className="flex-1 py-2 px-3 bg-accent-600 text-white rounded-lg font-medium hover:bg-accent-700 transition-colors text-xs"
           >
             Get Quote
           </button>

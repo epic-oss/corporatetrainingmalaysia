@@ -4,19 +4,20 @@ import { getCurrentYear } from '@/lib/utils'
 const currentYear = getCurrentYear()
 
 export const metadata: Metadata = {
-  title: `Corporate Training Cost Malaysia ${currentYear} - Price Guide & HRDF Claims`,
-  description: `How much does corporate training cost in Malaysia? Prices range from RM2,000-RM15,000/day. Compare leadership, team building, and technical training costs. HRDF claimable.`,
+  title: `Corporate Training Cost Malaysia ${currentYear} | RM2,000-RM15,000/Day`,
+  description: `How much does corporate training cost in Malaysia? Prices range from RM2,000-RM15,000 per day. See cost breakdown by training type, location, and HRDF claimable amounts.`,
   keywords: [
     'corporate training cost malaysia',
-    'training price malaysia',
+    'training cost per pax malaysia',
     'hrdf training cost',
-    'leadership training cost malaysia',
+    'corporate trainer rates malaysia',
     'team building cost malaysia',
-    'how much corporate training malaysia',
+    'leadership training cost malaysia',
+    'how much corporate training',
   ],
   openGraph: {
-    title: `Corporate Training Cost Malaysia ${currentYear} - Complete Price Guide`,
-    description: 'Corporate training in Malaysia costs RM2,000-RM15,000 per day. Get the complete pricing breakdown by training type.',
+    title: `Corporate Training Cost Malaysia ${currentYear} | RM2,000-RM15,000/Day`,
+    description: 'How much does corporate training cost in Malaysia? Prices range from RM2,000-RM15,000 per day. Complete pricing guide with HRDF claim info.',
   },
 }
 
