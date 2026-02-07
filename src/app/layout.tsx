@@ -107,50 +107,6 @@ export default function RootLayout({
             }),
           }}
         />
-        {/* FAQ Schema for Homepage */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'FAQPage',
-              mainEntity: [
-                {
-                  '@type': 'Question',
-                  name: 'How much does corporate training cost in Malaysia?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'Corporate training in Malaysia typically costs RM2,000-RM15,000 per day depending on the program type, trainer expertise, and group size. HRDF-registered companies can claim back these training costs through their levy contributions.',
-                  },
-                },
-                {
-                  '@type': 'Question',
-                  name: 'What is HRDF claimable training?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'HRDF (now HRD Corp) allows Malaysian companies with 10+ employees to claim back training costs. Companies contribute 1% of employee wages as levy and can claim up to 100% for approved training programs from registered providers.',
-                  },
-                },
-                {
-                  '@type': 'Question',
-                  name: 'How many corporate training providers are in Malaysia?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'There are over 1,000 HRD Corp registered training providers in Malaysia. CorporateTrainingMY.com lists 109+ verified providers across Kuala Lumpur, Selangor, Penang, Johor and other states.',
-                  },
-                },
-                {
-                  '@type': 'Question',
-                  name: 'What are the most popular corporate training programs in Malaysia?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'The most in-demand corporate training in Malaysia includes: Leadership Training, Digital Marketing, AI & Prompt Engineering, Data Analytics & Power BI, Cybersecurity, and Team Building programs.',
-                  },
-                },
-              ],
-            }),
-          }}
-        />
       </head>
       <body className={`${inter.className} bg-gray-50`}>
         <RootLayoutClient>{children}</RootLayoutClient>

@@ -37,33 +37,28 @@ export default function FloatingElements({ onOpenQuoteModal }: FloatingElementsP
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Social proof timer
+  // Social proof cycling timer
   useEffect(() => {
-    const showNotification = () => {
-      setCurrentProofIndex(Math.floor(Math.random() * socialProofs.length))
-      setShowSocialProof(true)
+    let timeout: NodeJS.Timeout
 
-      // Hide after 5 seconds
-      setTimeout(() => {
-        setShowSocialProof(false)
-      }, 5000)
+    const cycle = (delay: number) => {
+      timeout = setTimeout(() => {
+        setCurrentProofIndex(prev => (prev + 1) % socialProofs.length)
+        setShowSocialProof(true)
+
+        // Hide after 5 seconds, then schedule next
+        timeout = setTimeout(() => {
+          setShowSocialProof(false)
+          // Next notification in 20-30 seconds
+          cycle(Math.random() * 10000 + 20000)
+        }, 5000)
+      }, delay)
     }
 
-    // Show first notification after 10 seconds
-    const initialTimeout = setTimeout(() => {
-      showNotification()
-    }, 10000)
+    // First notification after 10 seconds
+    cycle(10000)
 
-    // Then show every 20-40 seconds
-    const interval = setInterval(() => {
-      const randomDelay = Math.random() * 20000 + 20000 // 20-40 seconds
-      setTimeout(showNotification, randomDelay)
-    }, 40000)
-
-    return () => {
-      clearTimeout(initialTimeout)
-      clearInterval(interval)
-    }
+    return () => clearTimeout(timeout)
   }, [])
 
   const scrollToTop = useCallback(() => {
