@@ -1,17 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProviderCard, useQuoteModal } from '@/components'
 import { getProvidersByLocation } from '@/lib/supabase'
 import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { LOCATIONS } from '@/lib/constants'
 import { getCurrentYear } from '@/lib/utils'
-
-interface LocationPageProps {
-  params: { location: string }
-}
 
 const locationDescriptions: Record<string, string> = {
   'kuala-lumpur': 'Kuala Lumpur, the capital city of Malaysia, is home to the country\'s leading corporate training providers. From world-class leadership development programs in KLCC to specialized technical training in Bangsar, KL offers the most diverse selection of HRDF-approved training companies in the nation.',
@@ -22,8 +17,7 @@ const locationDescriptions: Record<string, string> = {
   'melaka': 'Melaka, the historical trading port, now hosts training providers specializing in hospitality, tourism, and customer service. The state\'s unique heritage makes it an ideal location for experiential learning and team building programs.',
 }
 
-export default function LocationPage({ params }: LocationPageProps) {
-  const location = params.location
+export default function LocationPageContent({ location }: { location: string }) {
   const currentYear = getCurrentYear()
   const { openQuoteModal } = useQuoteModal()
   const [locationProviders, setLocationProviders] = useState<Provider[]>([])
@@ -43,7 +37,7 @@ export default function LocationPage({ params }: LocationPageProps) {
   }, [location, locationData])
 
   if (!locationData) {
-    notFound()
+    return null
   }
 
   const description = locationDescriptions[location] ||
