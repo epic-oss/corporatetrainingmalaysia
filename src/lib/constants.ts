@@ -13,32 +13,32 @@ export const LOCATIONS = [
 export const CATEGORIES = [
   {
     name: 'Leadership Training',
-    slug: 'leadership',
+    slug: 'leadership-training',
     description: 'Develop effective leaders with executive coaching, management skills, and leadership development programs.'
   },
   {
     name: 'Sales Training',
-    slug: 'sales',
+    slug: 'sales-training',
     description: 'Boost your sales team performance with negotiation skills, closing techniques, and customer relationship training.'
   },
   {
     name: 'Communication Training',
-    slug: 'communication',
+    slug: 'communication-training',
     description: 'Enhance workplace communication with presentation skills, business writing, and interpersonal communication programs.'
   },
   {
-    name: 'Technical Training',
-    slug: 'technical',
-    description: 'Upskill your workforce with IT training, software development, and technical certification programs.'
+    name: 'Digital Skills Training',
+    slug: 'digital-skills-training',
+    description: 'Upskill your workforce with IT training, data analytics, and digital tools certification programs.'
   },
   {
-    name: 'Compliance Training',
-    slug: 'compliance',
-    description: 'Ensure regulatory compliance with anti-corruption, data protection, and industry-specific compliance training.'
+    name: 'Safety & Compliance Training',
+    slug: 'safety-compliance-training',
+    description: 'Ensure regulatory compliance with workplace safety, data protection, and industry-specific compliance training.'
   },
   {
     name: 'Soft Skills Training',
-    slug: 'soft-skills',
+    slug: 'soft-skills-training',
     description: 'Build essential workplace skills including time management, emotional intelligence, and teamwork.'
   },
   {

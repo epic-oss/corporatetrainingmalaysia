@@ -146,35 +146,35 @@ export default function BestCorporateTrainingPage() {
               <tbody className="divide-y divide-gray-200">
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 font-medium">
-                    <Link href="/leadership-training-malaysia" className="text-primary-600 hover:underline">Leadership Training</Link>
+                    <Link href="/categories/leadership-training" className="text-primary-600 hover:underline">Leadership Training</Link>
                   </td>
                   <td className="px-6 py-4">Managers, Directors, Executives</td>
                   <td className="px-6 py-4">2-3 days</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 font-medium">
-                    <Link href="/team-building-training-malaysia" className="text-primary-600 hover:underline">Team Building</Link>
+                    <Link href="/categories/team-building" className="text-primary-600 hover:underline">Team Building</Link>
                   </td>
                   <td className="px-6 py-4">All departments, new teams</td>
                   <td className="px-6 py-4">1-2 days</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 font-medium">
-                    <Link href="/sales-training-malaysia" className="text-primary-600 hover:underline">Sales Training</Link>
+                    <Link href="/categories/sales-training" className="text-primary-600 hover:underline">Sales Training</Link>
                   </td>
                   <td className="px-6 py-4">Sales teams, business development</td>
                   <td className="px-6 py-4">1-2 days</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 font-medium">
-                    <Link href="/communication-training-malaysia" className="text-primary-600 hover:underline">Communication Skills</Link>
+                    <Link href="/categories/communication-training" className="text-primary-600 hover:underline">Communication Skills</Link>
                   </td>
                   <td className="px-6 py-4">All employees, customer-facing roles</td>
                   <td className="px-6 py-4">1-2 days</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 font-medium">
-                    <Link href="/soft-skills-training-malaysia" className="text-primary-600 hover:underline">Soft Skills</Link>
+                    <Link href="/categories/soft-skills-training" className="text-primary-600 hover:underline">Soft Skills</Link>
                   </td>
                   <td className="px-6 py-4">Entry to mid-level employees</td>
                   <td className="px-6 py-4">1 day</td>

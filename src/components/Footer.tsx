@@ -113,7 +113,7 @@ export default function Footer() {
               {CATEGORIES.slice(0, 6).map((category) => (
                 <li key={category.slug}>
                   <Link
-                    href={`/${category.slug}-training-malaysia`}
+                    href={`/categories/${category.slug}`}
                     className="text-primary-200 hover:text-white transition-colors"
                   >
                     {category.name}

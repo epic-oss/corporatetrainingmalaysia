@@ -50,6 +50,41 @@ const nextConfig = {
         destination: '/corporate-training-melaka',
         permanent: true,
       },
+      {
+        source: '/leadership-training-malaysia',
+        destination: '/categories/leadership-training',
+        permanent: true,
+      },
+      {
+        source: '/sales-training-malaysia',
+        destination: '/categories/sales-training',
+        permanent: true,
+      },
+      {
+        source: '/communication-training-malaysia',
+        destination: '/categories/communication-training',
+        permanent: true,
+      },
+      {
+        source: '/technical-training-malaysia',
+        destination: '/categories/digital-skills-training',
+        permanent: true,
+      },
+      {
+        source: '/compliance-training-malaysia',
+        destination: '/categories/safety-compliance-training',
+        permanent: true,
+      },
+      {
+        source: '/soft-skills-training-malaysia',
+        destination: '/categories/soft-skills-training',
+        permanent: true,
+      },
+      {
+        source: '/team-building-training-malaysia',
+        destination: '/categories/team-building',
+        permanent: true,
+      },
     ]
   },
 }

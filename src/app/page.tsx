@@ -242,7 +242,7 @@ export default function HomePage() {
             {CATEGORIES.map((category) => (
               <Link
                 key={category.slug}
-                href={`/${category.slug}-training-malaysia`}
+                href={`/categories/${category.slug}`}
                 className="card p-6 hover:border-primary-200 border border-transparent transition-all group"
               >
                 <div className="flex items-center mb-3">
