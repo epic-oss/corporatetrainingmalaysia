@@ -5,6 +5,7 @@ import { useQuoteModal } from '@/components'
 import QuickAnswer from '@/components/QuickAnswer'
 import ProviderRankCard from '@/components/ProviderRankCard'
 import { getCurrentYear } from '@/lib/utils'
+import ExploreMore from '@/components/ExploreMore'
 
 const currentYear = getCurrentYear()
 
@@ -440,6 +441,8 @@ export default function TopTrainingProvidersPage() {
           </Link>
         </div>
       </div>
+
+      <ExploreMore currentPath="/top-training-providers-malaysia" />
     </div>
   )
 }

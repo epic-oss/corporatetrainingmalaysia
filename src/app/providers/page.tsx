@@ -2,12 +2,16 @@
 
 import { Suspense } from 'react'
 import ProvidersContent from './ProvidersContent'
+import ExploreMore from '@/components/ExploreMore'
 
 export default function ProvidersPage() {
   return (
-    <Suspense fallback={<ProvidersLoading />}>
-      <ProvidersContent />
-    </Suspense>
+    <>
+      <Suspense fallback={<ProvidersLoading />}>
+        <ProvidersContent />
+      </Suspense>
+      <ExploreMore currentPath="/providers" />
+    </>
   )
 }
 

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useQuoteModal } from '@/components'
 import QuickAnswer from '@/components/QuickAnswer'
 import { getCurrentYear } from '@/lib/utils'
+import ExploreMore from '@/components/ExploreMore'
 
 const currentYear = getCurrentYear()
 
@@ -501,6 +502,8 @@ export default function BecomeHRDFProviderPage() {
           </Link>
         </div>
       </div>
+
+      <ExploreMore currentPath="/become-hrdf-provider" />
     </div>
   )
 }

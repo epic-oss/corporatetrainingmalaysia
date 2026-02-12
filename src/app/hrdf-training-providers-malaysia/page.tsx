@@ -6,6 +6,7 @@ import { ProviderCard, useQuoteModal } from '@/components'
 import { getHRDFProviders } from '@/lib/supabase'
 import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { getCurrentYear } from '@/lib/utils'
+import ExploreMore from '@/components/ExploreMore'
 
 export default function HRDFPage() {
   const currentYear = getCurrentYear()
@@ -196,6 +197,8 @@ export default function HRDFPage() {
             </div>
           </div>
         </div>
+
+        <ExploreMore currentPath="/hrdf-training-providers-malaysia" />
       </div>
     </div>
   )

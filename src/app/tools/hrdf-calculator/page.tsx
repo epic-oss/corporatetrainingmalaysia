@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import HRDFCalculator from '@/components/HRDFCalculator'
 import { getCurrentYear } from '@/lib/utils'
+import ExploreMore from '@/components/ExploreMore'
 
 const faqs = [
   {
@@ -223,6 +224,8 @@ export default function HRDFCalculatorPage() {
             </Link>
           </div>
         </div>
+
+        <ExploreMore currentPath="/tools/hrdf-calculator" />
       </div>
     </div>
   )

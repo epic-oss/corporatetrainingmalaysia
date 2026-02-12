@@ -6,6 +6,7 @@ import { ProviderCard, useQuoteModal } from '@/components'
 import { getProviders, getProvidersCount } from '@/lib/supabase'
 import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { getCurrentYear } from '@/lib/utils'
+import ExploreMore from '@/components/ExploreMore'
 
 const ITEMS_PER_PAGE = 24
 
@@ -443,6 +444,8 @@ export default function HRDFProvidersPage() {
               Get Free Quotes
             </button>
           </div>
+
+          <ExploreMore currentPath="/hrdf-providers" />
         </div>
       </div>
     </>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ProviderCard, useQuoteModal } from '@/components'
+import ExploreMore from '@/components/ExploreMore'
 import { getProvidersByLocation } from '@/lib/supabase'
 import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { LOCATIONS } from '@/lib/constants'
@@ -180,6 +181,8 @@ export default function LocationPageContent({ location }: { location: string }) 
             ))}
           </div>
         </div>
+
+        <ExploreMore currentPath={`/corporate-training-${location}`} showLocations={false} />
       </div>
     </div>
   )

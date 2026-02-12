@@ -2,6 +2,7 @@ import Link from 'next/link'
 import QuickAnswer from '@/components/QuickAnswer'
 import SchemaMarkup, { generateFAQSchema, generateArticleSchema } from '@/components/SchemaMarkup'
 import { getCurrentYear } from '@/lib/utils'
+import ExploreMore from '@/components/ExploreMore'
 
 export default function CorporateTrainingCostPage() {
   const currentYear = getCurrentYear()
@@ -426,6 +427,8 @@ export default function CorporateTrainingCostPage() {
           </Link>
         </div>
       </section>
+
+      <ExploreMore currentPath="/corporate-training-cost-malaysia" />
     </>
   )
 }

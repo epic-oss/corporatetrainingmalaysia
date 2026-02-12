@@ -7,6 +7,7 @@ import QuickAnswer from '@/components/QuickAnswer'
 import { getProviders } from '@/lib/supabase'
 import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { getCurrentYear } from '@/lib/utils'
+import ExploreMore from '@/components/ExploreMore'
 
 export default function BestCorporateTrainingPage() {
   const currentYear = getCurrentYear()
@@ -226,6 +227,8 @@ export default function BestCorporateTrainingPage() {
           </button>
         </div>
       </section>
+
+      <ExploreMore currentPath="/best-corporate-training-malaysia" />
     </>
   )
 }

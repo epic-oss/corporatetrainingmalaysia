@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ProviderCard, useQuoteModal } from '@/components'
 import SchemaMarkup, { generateFAQSchema } from '@/components/SchemaMarkup'
+import ExploreMore from '@/components/ExploreMore'
 import { getProvidersBySpecialization } from '@/lib/supabase'
 import { Provider, mapProvidersFromSupabase } from '@/lib/providers'
 import { getCurrentYear, processTemplateVariables } from '@/lib/utils'
@@ -272,6 +273,8 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               ))}
           </div>
         </div>
+
+        <ExploreMore currentPath={`/categories/${categorySlug}`} showCategories={false} />
       </div>
     </div>
   )
